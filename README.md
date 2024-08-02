@@ -59,35 +59,45 @@ esta es la coleccion de postman que contiene los curls ya armados para que pueda
 esta solicitud es de lectura y solo confirma que la api se levanto con exito 
 
 ### respuesta
+```json
 {
     "message": "Welcome api-REST",
     "status": 200
 }
+```
+
 
 ## create user 
 esta solicitud de escritura creea usuarios para que puedan consultar y hacer compras 
 ### cuerpo de la solicitud 
+```json
 {
     "document":"1022437014",
     "password" : "cristiangar"
 }
+```
 
 ### respuesta de la solicitud  
+```json
 {
     "id": "2k7XfNsUp76ngcCgIIYDcvitDJq",
     "document": "1022437014"
 }
+```
 
 ## login  
 Con tus cdredenciales anteriores ( document y password ) puedes acceder a la info relacionada con cada usuario , si no haz realizado comprar tendra valores nulos 
 
 ### cuerpo de la solicitud 
+```json
 {
     "document":"1022437014",
     "password" : "cristiangar"
 }
+```
 
-### respuesta de la solicitud  
+### respuesta de la solicitud 
+```json 
 {
     "id": "2k7XfNsUp76ngcCgIIYDcvitDJq",
     "document": "1022437014",
@@ -100,47 +110,53 @@ Con tus cdredenciales anteriores ( document y password ) puedes acceder a la inf
     "Leal_Coins": 390,
     "trades": null
 }
+```
 
 ## create trade 
 Para realizar una compra , primero debemos crear un comercio . pasamos el nombre del comercio y un User_id ( id de el primer usuario logueado en la api , por defecto este usuario va a ser el administrador  )
 
 ### cuerpo de la solicitud 
-
+```json
 {
     "name" :"Adidas",
     "user_id" : "2k7XfNsUp76ngcCgIIYDcvitDJq"
 }
+```
 
 **recuerda que el user_id es el id del usuario que se creo al inicio del recorrido**
 
 ### respuesta de la solicitud 
-
+```json
 {
     "message": "Comercio Registrado con exito",
     "id": "2k7XvWj1ISzYyJQROvCQcIwE4cj",
     "trade_name": "Adidas",
     "user_id": "2k7XfNsUp76ngcCgIIYDcvitDJq"
 }
+```
 
 ## create transaction
 Y por ultimo vamos a crear la transaccion , enviamos : documento , monto y nombre del comercio 
 
 ### cuerpo de la solicitud 
+```json
 {
     "document" : "1022437014",
     "amount" : 30000,
     "trade_name" : "Adidas" 
 }
+```
 
 ### respuesta de la solicitud 
-
+```json
 {
     "message": "Transaction successfully registered",
     "id": "2k7XwGTeE3b1JJIKiYSWC5veExJ"
 }
+```
 
 **Si revisas te logueas de nuevo vas a ver una respuesta con tus datos completos y porsupuesto tus leal coins y puntos 🚀**
-
+```json
 {
     "id": "2k7XfNsUp76ngcCgIIYDcvitDJq",
     "document": "1022437014",
@@ -174,3 +190,4 @@ Y por ultimo vamos a crear la transaccion , enviamos : documento , monto y nombr
     "Leal_Coins": 940,
     "trades": null
 }
+```
