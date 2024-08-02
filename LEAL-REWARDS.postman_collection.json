@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "f351105f-c5c1-4047-b872-5b224133d38b",
+		"name": "LEAL-REWARDS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32932794"
+	},
+	"item": [
+		{
+			"name": "create trade ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" :\"my comercio\",\r\n    \"user_id\" : \"2k5UKwnZndiZBvzWtF203inLCN1\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5050/signupTrade",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"signupTrade"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"document\" : \"1022437014\",\r\n    \"amount\" : 100000 ,\r\n    \"trade_name\" : \"my comercio\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5050/Transaction",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"Transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "connect api ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5050",
+					"host": [
+						"localhost"
+					],
+					"port": "5050"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"document\":\"1022437014\",\r\n    \"password\" : \"mycontrasena\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5050/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'localhost:5050/login' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"document\":\"1022437014\",\r\n    \"password\" : \"mycontrasena\"\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"document\":\"1022437014\",\r\n    \"password\" : \"mycontrasena\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5050/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"signup"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'localhost:5050/signup' \\\r\n--header 'Content-Type: application/json' \\\r\n--data '{\r\n    \"document\":\"1022437014\",\r\n    \"password\" : \"mycontrasena\"\r\n}'"
+			},
+			"response": []
+		}
+	]
+}
