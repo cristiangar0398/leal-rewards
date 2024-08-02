@@ -59,7 +59,7 @@ func (b *Broker) Start(bainder func(s Server, r *mux.Router)) {
 	port := b.Config().Port
 
 	log.Println(">>> >>> >>> 🚀 El servidor está despegando en el puerto", port, ">>> >>> >>>")
-	if err := http.ListenAndServe(b.config.Port, b.router); err != nil {
+	if err := http.ListenAndServe(":"+b.config.Port, b.router); err != nil {
 		log.Fatal("ListenAndServe", err)
 	}
 }

@@ -11,7 +11,7 @@ type UserDetail struct {
 	Cc            string     `json:"document"`
 	Points        []Point    `json:"points"`
 	Cashback      []Cashback `json:"cashback"`
-	TotalCashback float64    `json:"total_cashback"`
+	TotalCashback float64    `json:"Leal_Coins"`
 	Trades        []Trade    `json:"trades"`
 }
 
