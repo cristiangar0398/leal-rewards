@@ -89,12 +89,18 @@ func LoginHandler(s server.Server) http.HandlerFunc {
 			return
 		}
 
+		var totalCashback float64
+		for _, cashback := range userResponse.Cashback {
+			totalCashback += cashback.Amount
+		}
+
 		userDetail := models.UserDetail{
-			Id:       userResponse.Id,
-			Cc:       userResponse.Cc,
-			Points:   userResponse.Points,
-			Cashback: userResponse.Cashback,
-			Trades:   userResponse.Trades,
+			Id:            userResponse.Id,
+			Cc:            userResponse.Cc,
+			Points:        userResponse.Points,
+			Cashback:      userResponse.Cashback,
+			TotalCashback: totalCashback,
+			//Trades:        userResponse.Trades,
 		}
 
 		w.Header().Set("content-type", "aaplication/json")

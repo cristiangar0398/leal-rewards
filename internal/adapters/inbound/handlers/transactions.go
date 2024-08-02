@@ -3,9 +3,12 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/cristiangar0398/leal-rewards/internal/adapters/outbound/repository"
+	"github.com/cristiangar0398/leal-rewards/internal/domain/services"
 	"github.com/cristiangar0398/leal-rewards/internal/models"
 	"github.com/cristiangar0398/leal-rewards/internal/server"
 	"github.com/segmentio/ksuid"
@@ -24,6 +27,7 @@ type TransactionResponse struct {
 
 func TransactionProcessHandler(s server.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		service := services.NewRewardsService()
 		request, err := decodeTransactionRequest(r)
 		if err != nil {
 			http.Error(w, "Invalid request payload", http.StatusBadRequest)
@@ -42,7 +46,7 @@ func TransactionProcessHandler(s server.Server) http.HandlerFunc {
 			return
 		}
 
-		transactionID, err := generateTransactionID()
+		transactionID, err := generateRandomID()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -58,6 +62,24 @@ func TransactionProcessHandler(s server.Server) http.HandlerFunc {
 		err = repository.InsertTransaction(r.Context(), transaction)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		date := time.Now()
+		points, cashback := service.CalculatePointsAndCashback(request.Amount, trade.Id, date)
+
+		pointsID, _ := generateRandomID()
+		err = repository.InsertRecordPoints(r.Context(), pointsID, user.Id, trade.Id, points)
+		if err != nil {
+			log.Printf("Error recording points: %v", err)
+			http.Error(w, "Error recording points", http.StatusInternalServerError)
+			return
+		}
+
+		cashbackID, _ := generateRandomID()
+		err = repository.InsertRecordCashback(r.Context(), cashbackID, user.Id, cashback)
+		if err != nil {
+			http.Error(w, "Error recording cashback", http.StatusInternalServerError)
 			return
 		}
 
@@ -84,7 +106,7 @@ func decodeTransactionRequest(r *http.Request) (TransactionRequest, error) {
 	return request, err
 }
 
-func generateTransactionID() (string, error) {
+func generateRandomID() (string, error) {
 	id, err := ksuid.NewRandom()
 	if err != nil {
 		return "", err

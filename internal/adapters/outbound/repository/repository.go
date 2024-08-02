@@ -19,6 +19,8 @@ type Repository interface {
 	GetTradeById(ctx context.Context, id string) (*models.Trade, error)
 	GetUserDetail(ctx context.Context, document string) (*models.UserDetail, error)
 	GetTradeIDByName(ctx context.Context, name string) (*models.Trade, error)
+	InsertRecordPoints(ctx context.Context, id string, userID string, tradeId string, points int) error
+	InsertRecordCashback(ctx context.Context, id string, userID string, cashback float64) error
 	Close() error
 }
 
@@ -32,6 +34,14 @@ func InsertUser(ctx context.Context, user *models.User) error {
 
 func InsertTrade(ctx context.Context, trade *models.Trade) error {
 	return implementation.InsertTrade(ctx, trade)
+}
+
+func InsertRecordPoints(ctx context.Context, id string, userID string, tradeId string, points int) error {
+	return implementation.InsertRecordPoints(ctx, id, userID, tradeId, points)
+}
+
+func InsertRecordCashback(ctx context.Context, id string, userID string, cashback float64) error {
+	return implementation.InsertRecordCashback(ctx, id, userID, cashback)
 }
 
 func InsertTransaction(ctx context.Context, transaction *models.Transaction) error {
