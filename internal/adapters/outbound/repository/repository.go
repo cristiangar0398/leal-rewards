@@ -13,10 +13,14 @@ var (
 type Repository interface {
 	InsertUser(ctx context.Context, user *models.User) error
 	InsertTrade(ctx context.Context, trade *models.Trade) error
+	InsertTransaction(ctx context.Context, transaction *models.Transaction) error
 	GetUserById(ctx context.Context, id string) (*models.User, error)
 	GetUserByDocument(ctx context.Context, document string) (*models.User, error)
 	GetTradeById(ctx context.Context, id string) (*models.Trade, error)
 	GetUserDetail(ctx context.Context, document string) (*models.UserDetail, error)
+	GetTradeIDByName(ctx context.Context, name string) (*models.Trade, error)
+	InsertRecordPoints(ctx context.Context, id string, userID string, tradeId string, points int) error
+	InsertRecordCashback(ctx context.Context, id string, userID string, cashback float64) error
 	Close() error
 }
 
@@ -30,6 +34,18 @@ func InsertUser(ctx context.Context, user *models.User) error {
 
 func InsertTrade(ctx context.Context, trade *models.Trade) error {
 	return implementation.InsertTrade(ctx, trade)
+}
+
+func InsertRecordPoints(ctx context.Context, id string, userID string, tradeId string, points int) error {
+	return implementation.InsertRecordPoints(ctx, id, userID, tradeId, points)
+}
+
+func InsertRecordCashback(ctx context.Context, id string, userID string, cashback float64) error {
+	return implementation.InsertRecordCashback(ctx, id, userID, cashback)
+}
+
+func InsertTransaction(ctx context.Context, transaction *models.Transaction) error {
+	return implementation.InsertTransaction(ctx, transaction)
 }
 
 func GetUserById(ctx context.Context, id string) (*models.User, error) {
@@ -46,6 +62,10 @@ func GetTradeById(ctx context.Context, id string) (*models.Trade, error) {
 
 func GetUserDetail(ctx context.Context, document string) (*models.UserDetail, error) {
 	return implementation.GetUserDetail(ctx, document)
+}
+
+func GetTradeIDByName(ctx context.Context, name string) (*models.Trade, error) {
+	return implementation.GetTradeIDByName(ctx, name)
 }
 
 func Close() error {
