@@ -7,11 +7,12 @@ type User struct {
 }
 
 type UserDetail struct {
-	Id       string     `json:"id"`
-	Cc       string     `json:"document"`
-	Points   []Point    `json:"points"`
-	Cashback []Cashback `json:"cashback"`
-	Trades   []Trade    `json:"trades"`
+	Id            string     `json:"id"`
+	Cc            string     `json:"document"`
+	Points        []Point    `json:"points"`
+	Cashback      []Cashback `json:"cashback"`
+	TotalCashback float64    `json:"total_cashback"`
+	Trades        []Trade    `json:"trades"`
 }
 
 type Point struct {
