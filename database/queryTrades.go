@@ -6,8 +6,8 @@ import (
 	"github.com/cristiangar0398/leal-rewards/internal/models"
 )
 
-func getTradesByUserId(db *sql.DB, userId string) ([]models.Trade, error) {
-	rows, err := db.Query("SELECT id, name FROM trades WHERE user_id = $1", userId)
+func getTradesData(db *sql.DB, query string, userId string) ([]models.Trade, error) {
+	rows, err := db.Query(query, userId)
 	if err != nil {
 		return nil, err
 	}

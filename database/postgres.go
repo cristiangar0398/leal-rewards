@@ -37,6 +37,11 @@ func (repo *PostgresRepository) InsertTrade(ctx context.Context, trade *models.T
 	return err
 }
 
+func (repo *PostgresRepository) InsertTransaction(ctx context.Context, transaction *models.Transaction) error {
+	_, err := repo.db.ExecContext(ctx, "INSERT INTO transactions (id, user_id, trade_id, amount) VALUES ($1, $2, $3, $4)", transaction.ID, transaction.UserID, transaction.TradeID, transaction.Amount)
+	return err
+}
+
 func (repo *PostgresRepository) GetUserById(ctx context.Context, id string) (*models.User, error) {
 	var user models.User
 	rows, err := repo.db.QueryContext(ctx, "SELECT id , document FROM users WHERE id = $1", id)
@@ -108,7 +113,7 @@ func (repo *PostgresRepository) GetUserDetail(ctx context.Context, document stri
 		return nil, err
 	}
 
-	trades, err := getTradesByUserId(repo.db, user.Id)
+	trades, err := getTradesData(repo.db, "SELECT id, name FROM trades WHERE user_id = $1", user.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -128,6 +133,32 @@ func (repo *PostgresRepository) GetUserDetail(ctx context.Context, document stri
 func (repo *PostgresRepository) GetTradeById(ctx context.Context, id string) (*models.Trade, error) {
 	var trade models.Trade
 	rows, err := repo.db.QueryContext(ctx, "SELECT id , name , user_id , conversion_rate FROM trades WHERE id = $1", id)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		if cerr := rows.Close(); cerr != nil {
+			log.Fatal(cerr)
+		}
+	}()
+
+	if rows.Next() {
+		if err := rows.Scan(&trade.Id, &trade.TradeName, &trade.UserID, &trade.ConversionRate); err != nil {
+			return nil, err
+		}
+		return &trade, nil
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+
+func (repo *PostgresRepository) GetTradeIDByName(ctx context.Context, name string) (*models.Trade, error) {
+	var trade models.Trade
+	rows, err := repo.db.QueryContext(ctx, "SELECT id ,name , user_id ,conversion_rate FROM trades WHERE name = $1", name)
+
 	if err != nil {
 		return nil, err
 	}
