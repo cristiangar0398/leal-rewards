@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS transactions;
 
 
--- Crear tabla de usuarios
+
 CREATE TABLE users (
   id VARCHAR(32) PRIMARY KEY,
   password VARCHAR(255) NOT NULL,
@@ -15,22 +15,21 @@ CREATE TABLE users (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- Crear tabla de comercios
 CREATE TABLE trades (
   id VARCHAR(32) PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   user_id VARCHAR(32) NOT NULL,
-  conversion_rate INT NOT NULL DEFAULT 1000, -- Factor de conversión por defecto
+  conversion_rate INT NOT NULL DEFAULT 1000, 
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Crear tabla de transacciones
+
 CREATE TABLE transactions (
   id VARCHAR(32) PRIMARY KEY,
   user_id VARCHAR(32) NOT NULL,
   trade_id VARCHAR(32) NOT NULL,
-  amount DECIMAL(10, 2) NOT NULL, -- Monto de la transacción
+  amount DECIMAL(10, 2) NOT NULL, 
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (trade_id) REFERENCES trades(id)
@@ -47,11 +46,11 @@ CREATE TABLE points (
   FOREIGN KEY (trade_id) REFERENCES trades(id)
 );
 
--- Crear tabla de cashback
+
 CREATE TABLE cashback (
   id VARCHAR(32) PRIMARY KEY,
   user_id VARCHAR(32) NOT NULL,
-  amount DECIMAL(10, 2) NOT NULL, -- Monto de cashback acumulado
+  amount DECIMAL(10, 2) NOT NULL, 
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -60,12 +59,12 @@ CREATE TABLE cashback (
 CREATE TABLE campaigns (
   id VARCHAR(32) PRIMARY KEY,
   trade_id VARCHAR(32) NOT NULL,
-  branch_name VARCHAR(255) NOT NULL, -- Nombre de la sucursal
+  branch_name VARCHAR(255) NOT NULL, 
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP NOT NULL,
-  bonus_type VARCHAR(10) NOT NULL, -- Puede ser 'double' o 'percentage'
-  bonus_value DECIMAL(5, 2) NOT NULL, -- Por ejemplo, 2.0 para el doble de puntos o 1.3 para un 30% adicional
-  min_purchase_amount DECIMAL(10, 2), -- Monto mínimo de compra para aplicar la campaña
+  bonus_type VARCHAR(10) NOT NULL,
+  bonus_value DECIMAL(5, 2) NOT NULL, 
+  min_purchase_amount DECIMAL(10, 2), 
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (trade_id) REFERENCES trades(id)
 );

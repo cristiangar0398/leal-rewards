@@ -35,7 +35,6 @@ func SignUpTradeHandler(s server.Server) http.HandlerFunc {
 			return
 		}
 
-		// Genera un nuevo ID único para el comercio
 		tradeID, err := generateTradeID()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
